@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.hanseter</groupId>
+    <artifactId>bundle-gen-example</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <kotlin.version>1.9.10</kotlin.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <kotlin.code.style>official</kotlin.code.style>
+        <kotlin.compiler.jvmTarget>${java.version}</kotlin.compiler.jvmTarget>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.hanseter</groupId>
+                <artifactId>bundle-gen-mvn</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-bundle-classes</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <bundles>
+                        <bundle>
+                            <language>java</language>
+                            <file>${project.basedir}/src/main/resources/exampleI18n.properties</file>
+                            <packageName>com.github.hanseter</packageName>
+                            <className>Foo</className>
+                            <outDir>${project.basedir}/src-gen/main/java</outDir>
+                        </bundle>
+                        <bundle>
+                            <language>kotlin</language>
+                            <file>${project.basedir}/src/main/resources/exampleI18n.properties</file>
+                            <packageName>com.github.hanseter</packageName>
+                        </bundle>
+                    </bundles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+    </dependencies>
+
+</project>
