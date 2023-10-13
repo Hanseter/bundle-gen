@@ -24,7 +24,7 @@
             <plugin>
                 <groupId>com.github.hanseter</groupId>
                 <artifactId>bundle-gen-mvn</artifactId>
-                <version>${project.version}</version>
+                <version>0.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -44,6 +44,11 @@
                         <bundle>
                             <language>kotlin</language>
                             <file>${project.basedir}/src/main/resources/exampleI18n.properties</file>
+                            <packageName>com.github.hanseter</packageName>
+                        </bundle>
+                        <bundle>
+                            <language>kotlin</language>
+                            <file>${project.basedir}/src/main/resources/nested/bundle.properties</file>
                             <packageName>com.github.hanseter</packageName>
                         </bundle>
                     </bundles>

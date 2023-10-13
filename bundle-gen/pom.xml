@@ -6,8 +6,32 @@
 
     <groupId>com.github.hanseter</groupId>
     <artifactId>bundle-gen</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>A library to generate java and kotlin classes from java resource bundles.</description>
+    <url>https://github.com/Hanseter/bundle-gen</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Hanseter</name>
+            <organizationUrl>https://github.com/Hanseter</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/Hanseter/bundle-gen.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Hanseter/bundle-gen.git</developerConnection>
+        <url>https://github.com/Hanseter/bundle-gen/tree/master</url>
+    </scm>
 
     <properties>
         <java.version>1.8</java.version>
@@ -40,6 +64,33 @@
                         <phase>test-compile</phase>
                         <goals>
                             <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <version>1.9.0</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>dokka</goal>
+                            <goal>javadoc</goal>
+                            <goal>javadocJar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
