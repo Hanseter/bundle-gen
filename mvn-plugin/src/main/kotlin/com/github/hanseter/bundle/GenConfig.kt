@@ -7,8 +7,8 @@ class GenConfig() {
     lateinit var language: String
     @Parameter(required = true, property = "file")
     lateinit var file: String
-    @Parameter(required = true, property = "packageName")
-    lateinit var packageName: String
+    @Parameter(property = "packageName")
+    var packageName: String? = null
     @Parameter(property = "className")
     var className: String? = null
     @Parameter(property = "outDir")

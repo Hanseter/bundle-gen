@@ -1,16 +1,30 @@
 package com.github.hanseter.bundle
 
+/**
+ * Generates a java class from the provided resource bundle.
+ *
+ * @param resProps The resource bundle content as a string.
+ * @param packageName The package the of the generated class.
+ * @param className The class name of the generated code.
+ * @param fileName The file name of the resource bundle.
+ * Needs to contain the whole path that would be needed to load the file from classpath.
+ *
+ * @return The unformatted class code.
+ */
 fun generateJava(resProps: String, packageName: String, className: String, fileName: String): String {
     val sb = StringBuilder()
     val entries = toI18nEntries(resProps)
-    sb + "package " + packageName + ";\n\npublic final class " + className + " {\n"
+    if (packageName.isNotEmpty()) {
+        sb + "package " + packageName + ";\n\n"
+    }
+    sb + "public final class " + className + " {\n"
     sb + "private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(\"" + fileName + "\");\n"
-    entries.forEach { appendKotlinMethod(it, sb) }
+    entries.forEach { appendJavaMethod(it, sb) }
     sb + "}"
     return sb.toString()
 }
 
-private fun appendKotlinMethod(entry: Entry, sb: StringBuilder) {
+private fun appendJavaMethod(entry: Entry, sb: StringBuilder) {
     sb + "public String "
     appendMethodName(entry, sb)
     sb + "("

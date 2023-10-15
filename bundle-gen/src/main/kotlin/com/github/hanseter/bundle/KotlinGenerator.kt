@@ -3,10 +3,24 @@ package com.github.hanseter.bundle
 import java.text.MessageFormat
 import kotlin.text.StringBuilder
 
+/**
+ * Generates a kotlin class from the provided resource bundle.
+ *
+ * @param resProps The resource bundle content as a string.
+ * @param packageName The package the of the generated class.
+ * @param className The class name of the generated code.
+ * @param fileName The file name of the resource bundle.
+ * Needs to contain the whole path that would be needed to load the file from classpath.
+ *
+ * @return The unformatted class code.
+ */
 fun generateKotlin(resProps: String, packageName: String, className: String, fileName: String): String {
     val sb = StringBuilder()
     val entries = toI18nEntries(resProps)
-    sb + "package " + packageName + "\n\nclass " + className + " {\n"
+    if (packageName.isNotEmpty()) {
+        sb + "package " + packageName + "\n\n"
+    }
+    sb + "class " + className + " {\n"
     sb + "private val bundle: java.util.ResourceBundle = java.util.ResourceBundle.getBundle(\"" + fileName + "\")\n"
     entries.forEach { appendKotlinMethod(it, sb) }
     sb + "}"
@@ -27,11 +41,11 @@ private fun appendKotlinMethod(entry: Entry, sb: StringBuilder) {
         sb.append(", ")
     }
     if (entry.paramCount > 0) {
-        sb.setLength(sb.length-2)
+        sb.setLength(sb.length - 2)
     }
     sb + "): String = "
     if (entry.paramCount == 0) {
-        sb + "bundle.getString(\"" + entry.key+"\")"
+        sb + "bundle.getString(\"" + entry.key + "\")"
     } else {
         sb + "java.text.MessageFormat.format(bundle.getString(\"" + entry.key + "\"), "
         repeat(entry.paramCount) { i ->
@@ -43,7 +57,7 @@ private fun appendKotlinMethod(entry: Entry, sb: StringBuilder) {
             }
             sb + ", "
         }
-        sb.setLength(sb.length-2)
+        sb.setLength(sb.length - 2)
         sb + ")"
     }
     sb + "\n"
@@ -81,7 +95,7 @@ internal fun toI18nEntries(resProps: String): List<Entry> {
                     return@forEach
                 }
                 key = trimmedLine.take(index)
-                value = trimmedLine.substring(index+1)
+                value = trimmedLine.substring(index + 1)
             }
             if (value.endsWith("\\")) {
                 value = value.dropLast(1)
@@ -120,7 +134,7 @@ internal class ParamAnnotation(val number: Int, val name: String, val type: Stri
         get() = type
 
     val javaType: String
-        get() = when(type) {
+        get() = when (type) {
             "Integer" -> "int"
             "Long" -> "long"
             "Double" -> "double"
