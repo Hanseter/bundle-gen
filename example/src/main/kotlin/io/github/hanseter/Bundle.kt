@@ -1,4 +1,4 @@
-package com.github.hanseter
+package io.github.hanseter
 
 class Bundle {
 private val bundle: java.util.ResourceBundle = java.util.ResourceBundle.getBundle("nested/bundle")

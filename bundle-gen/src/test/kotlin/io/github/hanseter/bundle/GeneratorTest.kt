@@ -1,4 +1,4 @@
-package com.github.hanseter.bundle
+package io.github.hanseter.bundle
 
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

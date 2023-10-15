@@ -67,3 +67,22 @@ In the maven plugin you can either provide a list of all bundle files that shall
 needed configuration to the top of a bundle file inline as comments and let the plugin automatically find these files.
 When using the inline configuration please make sure, to only include it in one properties file of the bundle.
 Examples for both can be found in the `example` module.
+
+Simply add this snippet to your maven build to use the plugin.
+```xml
+<pugins>
+    <plugin>
+        plugin>
+        <groupId>io.github.hanseter</groupId>
+        <artifactId>bundle-gen-mvn</artifactId>
+        <version>0.3</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>generate-bundle-classes</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+</pugins>
+```

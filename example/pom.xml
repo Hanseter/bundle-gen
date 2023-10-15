@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.hanseter</groupId>
+    <groupId>io.github.hanseter</groupId>
     <artifactId>bundle-gen-example</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -22,9 +22,9 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.github.hanseter</groupId>
+                <groupId>io.github.hanseter</groupId>
                 <artifactId>bundle-gen-mvn</artifactId>
-                <version>0.2</version>
+                <version>0.3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -37,27 +37,24 @@
                         <bundle>
                             <language>java</language>
                             <file>${project.basedir}/src/main/resources/exampleI18n.properties</file>
-                            <packageName>com.github.hanseter</packageName>
+                            <packageName>io.github.hanseter</packageName>
                             <className>Foo</className>
                             <outDir>${project.basedir}/src-gen/main/java</outDir>
                         </bundle>
                         <bundle>
                             <language>kotlin</language>
                             <file>${project.basedir}/src/main/resources/exampleI18n.properties</file>
-                            <packageName>com.github.hanseter</packageName>
+                            <packageName>io.github.hanseter</packageName>
                         </bundle>
                         <bundle>
                             <language>kotlin</language>
                             <file>${project.basedir}/src/main/resources/nested/bundle.properties</file>
-                            <packageName>com.github.hanseter</packageName>
+                            <packageName>io.github.hanseter</packageName>
                         </bundle>
                     </bundles>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-    </dependencies>
 
 </project>

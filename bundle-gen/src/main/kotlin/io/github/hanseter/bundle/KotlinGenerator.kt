@@ -1,4 +1,4 @@
-package com.github.hanseter.bundle
+package io.github.hanseter.bundle
 
 import java.text.MessageFormat
 import kotlin.text.StringBuilder

@@ -1,4 +1,4 @@
-package com.github.hanseter.bundle
+package io.github.hanseter.bundle
 
 import org.apache.maven.model.Resource
 import org.apache.maven.plugin.AbstractMojo

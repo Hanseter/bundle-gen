@@ -1,4 +1,4 @@
-package com.github.hanseter.bundle
+package io.github.hanseter.bundle
 
 /**
  * Generates a java class from the provided resource bundle.
