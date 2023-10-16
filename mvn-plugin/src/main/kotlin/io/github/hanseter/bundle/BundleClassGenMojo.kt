@@ -105,7 +105,7 @@ class BundleClassGenMojo : AbstractMojo() {
         val packageName = cfg.packageName ?: getDefaultPackageName(relativeFile)
 
 
-        val fileName = relativeFile.substringBeforeLast('.')
+        val fileName = relativeFile.substringBeforeLast('.').replace('\\', '/')
         val result = when (cfg.language.lowercase()) {
             "java" -> generateJava(content, packageName, className, fileName)
             "kotlin" -> generateKotlin(content, packageName, className, fileName)
