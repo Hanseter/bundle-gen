@@ -20,10 +20,16 @@ class GeneratorTest {
                 """
                 package package.name
                 
-                class ClassName {
-                  private val bundle: java.util.ResourceBundle = java.util.ResourceBundle.getBundle("bundle.properties")
-                  fun foo(): String = bundle.getString("foo")
-                  fun fooBar(): String = bundle.getString("foo.bar")
+                class ClassName(private val translate: TranslationProvider) {
+                  fun  interface TranslationProvider {
+                    operator fun invoke(key: String): String
+                  }
+                  constructor() : this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString)
+                  fun foo(): String = translate("foo")
+                  fun fooBar(): String = translate("foo.bar")
+                  companion object {
+                   const val BUNDLE_PATH = "bundle.properties"
+                  }
                 }
             """.trimIndent().lines().joinToString("\n") { it.trim() }
             )
@@ -36,9 +42,19 @@ class GeneratorTest {
                 package package.name;
                 
                 public final class ClassName {
-                  private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle.properties");
-                  public String foo() { return bundle.getString("foo"); }
-                  public String fooBar() { return bundle.getString("foo.bar"); }
+                  public static final String BUNDLE_PATH = "bundle.properties";
+                  public interface TranslationProvider {
+                    String translate(String key);
+                  }
+                  private final TranslationProvider translator;
+                  public ClassName() {
+                   this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString);
+                  }
+                  public ClassName(TranslationProvider translator) {
+                   this.translator = translator;
+                  }
+                  public String foo() { return translator.translate("foo"); }
+                  public String fooBar() { return translator.translate("foo.bar"); }
                 }
             """.trimIndent().lines().joinToString("\n") { it.trim() }
             )
@@ -59,10 +75,16 @@ class GeneratorTest {
                 """
                 package package.name
                 
-                class ClassName {
-                  private val bundle: java.util.ResourceBundle = java.util.ResourceBundle.getBundle("bundle.properties")
-                  fun multiLine(): String = bundle.getString("multi.line")
-                  fun singleLine(): String = bundle.getString("single.line")
+                class ClassName(private val translate: TranslationProvider) {
+                  fun  interface TranslationProvider {
+                    operator fun invoke(key: String): String
+                  }
+                  constructor() : this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString)
+                  fun multiLine(): String = translate("multi.line")
+                  fun singleLine(): String = translate("single.line")
+                  companion object {
+                   const val BUNDLE_PATH = "bundle.properties"
+                  }
                 }
             """.trimIndent().lines().joinToString("\n") { it.trim() }
             )
@@ -75,9 +97,19 @@ class GeneratorTest {
                 package package.name;
                 
                 public final class ClassName {
-                  private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle.properties");
-                  public String multiLine() { return bundle.getString("multi.line"); }
-                  public String singleLine() { return bundle.getString("single.line"); }
+                  public static final String BUNDLE_PATH = "bundle.properties";
+                  public interface TranslationProvider {
+                    String translate(String key);
+                  }
+                  private final TranslationProvider translator;
+                  public ClassName() {
+                   this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString);
+                  }
+                  public ClassName(TranslationProvider translator) {
+                   this.translator = translator;
+                  }
+                  public String multiLine() { return translator.translate("multi.line"); }
+                  public String singleLine() { return translator.translate("single.line"); }
                 }
             """.trimIndent().lines().joinToString("\n") { it.trim() }
             )
@@ -101,10 +133,16 @@ class GeneratorTest {
                 """
                 package package.name
                 
-                class ClassName {
-                  private val bundle: java.util.ResourceBundle = java.util.ResourceBundle.getBundle("bundle.properties")
-                  fun multiLine(name: String): String = java.text.MessageFormat.format(bundle.getString("multi.line"), name)
-                  fun singleLine(name: String, param1: String, otherName: Integer): String = java.text.MessageFormat.format(bundle.getString("single.line"), name, param1, otherName)
+                class ClassName(private val translate: TranslationProvider) {
+                  fun  interface TranslationProvider {
+                    operator fun invoke(key: String): String
+                  }
+                  constructor() : this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString)
+                  fun multiLine(name: String): String = java.text.MessageFormat.format(translate("multi.line"), name)
+                  fun singleLine(name: String, param1: String, otherName: Integer): String = java.text.MessageFormat.format(translate("single.line"), name, param1, otherName)
+                  companion object {
+                   const val BUNDLE_PATH = "bundle.properties"
+                  }
                 }
             """.trimIndent().lines().joinToString("\n") { it.trim() }
             )
@@ -117,9 +155,19 @@ class GeneratorTest {
                 package package.name;
                 
                 public final class ClassName {
-                  private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle.properties");
-                  public String multiLine(String name) { return java.text.MessageFormat.format(bundle.getString("multi.line"), name); }
-                  public String singleLine(String name, String param1, int otherName) { return java.text.MessageFormat.format(bundle.getString("single.line"), name, param1, otherName); }
+                  public static final String BUNDLE_PATH = "bundle.properties";
+                  public interface TranslationProvider {
+                    String translate(String key);
+                  }
+                  private final TranslationProvider translator;
+                  public ClassName() {
+                   this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString);
+                  }
+                  public ClassName(TranslationProvider translator) {
+                   this.translator = translator;
+                  }
+                  public String multiLine(String name) { return java.text.MessageFormat.format(translator.translate("multi.line"), name); }
+                  public String singleLine(String name, String param1, int otherName) { return java.text.MessageFormat.format(translator.translate("single.line"), name, param1, otherName); }
                 }
             """.trimIndent().lines().joinToString("\n") { it.trim() }
             )

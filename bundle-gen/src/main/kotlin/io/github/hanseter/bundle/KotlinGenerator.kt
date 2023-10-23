@@ -20,9 +20,13 @@ fun generateKotlin(resProps: String, packageName: String, className: String, fil
     if (packageName.isNotEmpty()) {
         sb + "package " + packageName + "\n\n"
     }
-    sb + "class " + className + " {\n"
-    sb + "private val bundle: java.util.ResourceBundle = java.util.ResourceBundle.getBundle(\"" + fileName + "\")\n"
+    sb + "class " + className + "(private val translate: TranslationProvider) {\n"
+    sb + " fun  interface TranslationProvider {\n  operator fun invoke(key: String): String\n }\n"
+    sb + " constructor() : this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString)\n"
     entries.forEach { appendKotlinMethod(it, sb) }
+    sb + " companion object {\n"
+    sb + "  const val BUNDLE_PATH = \"$fileName\"\n"
+    sb + " }\n"
     sb + "}"
     return sb.toString()
 }
@@ -45,9 +49,9 @@ private fun appendKotlinMethod(entry: Entry, sb: StringBuilder) {
     }
     sb + "): String = "
     if (entry.paramCount == 0) {
-        sb + "bundle.getString(\"" + entry.key + "\")"
+        sb + "translate(\"" + entry.key + "\")"
     } else {
-        sb + "java.text.MessageFormat.format(bundle.getString(\"" + entry.key + "\"), "
+        sb + "java.text.MessageFormat.format(translate(\"" + entry.key + "\"), "
         repeat(entry.paramCount) { i ->
             val annotation = entry.annotations.find { it.number == i }
             if (annotation != null) {

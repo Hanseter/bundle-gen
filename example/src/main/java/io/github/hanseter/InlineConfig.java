@@ -1,6 +1,16 @@
 package io.github.hanseter;
 
 public final class InlineConfig {
-private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("io/github/hanseter/InlineConfig");
-public String exampleString() { return bundle.getString("example.string"); }
+ public static final String BUNDLE_PATH = "io/github/hanseter/InlineConfig";
+ public interface TranslationProvider {
+  String translate(String key);
+ }
+ private final TranslationProvider translator;
+ public InlineConfig() {
+  this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString);
+ }
+ public InlineConfig(TranslationProvider translator) {
+  this.translator = translator;
+ }
+public String exampleString() { return translator.translate("example.string"); }
 }

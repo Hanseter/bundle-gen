@@ -18,7 +18,11 @@ fun generateJava(resProps: String, packageName: String, className: String, fileN
         sb + "package " + packageName + ";\n\n"
     }
     sb + "public final class " + className + " {\n"
-    sb + "private final java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(\"" + fileName + "\");\n"
+    sb + " public static final String BUNDLE_PATH = \"" + fileName + "\";\n"
+    sb + " public interface TranslationProvider {\n  String translate(String key);\n }\n"
+    sb + " private final TranslationProvider translator;\n"
+    sb + " public " + className +"() {\n  this(java.util.ResourceBundle.getBundle(BUNDLE_PATH)::getString);\n }\n"
+    sb + " public " + className +"(TranslationProvider translator) {\n  this.translator = translator;\n }\n"
     entries.forEach { appendJavaMethod(it, sb) }
     sb + "}"
     return sb.toString()
@@ -42,9 +46,9 @@ private fun appendJavaMethod(entry: Entry, sb: StringBuilder) {
     }
     sb + ") { return "
     if (entry.paramCount == 0) {
-        sb + "bundle.getString(\"" + entry.key + "\")"
+        sb + "translator.translate(\"" + entry.key + "\")"
     } else {
-        sb + "java.text.MessageFormat.format(bundle.getString(\"" + entry.key + "\"), "
+        sb + "java.text.MessageFormat.format(translator.translate(\"" + entry.key + "\"), "
         repeat(entry.paramCount) { i ->
             val annotation = entry.annotations.find { it.number == i }
             if (annotation != null) {

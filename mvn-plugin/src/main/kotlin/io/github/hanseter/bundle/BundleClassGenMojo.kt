@@ -93,19 +93,20 @@ class BundleClassGenMojo : AbstractMojo() {
     }
 
     private fun generateClass(cfg: GenConfig) {
-        val content = Paths.get(cfg.file).readText()
-        val className = cfg.className ?: Paths.get(cfg.file).toFile().nameWithoutExtension.replaceFirstChar {
+        val filePath = cfg.file.replace('\\', '/')
+        val content = Paths.get(filePath).readText()
+        val className = cfg.className ?: Paths.get(filePath).toFile().nameWithoutExtension.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(Locale.getDefault())
             else it.toString()
         }
-        val resDir = resources.find { cfg.file.startsWith(it.directory) }
-            ?: throw IllegalArgumentException("Bundle ${cfg.file} doesn't seem to be in a resource directory!")
+        val resDir = resources.map { it.directory.replace('\\', '/') }.find { filePath.startsWith(it) }
+            ?: throw IllegalArgumentException("Bundle ${filePath} doesn't seem to be in a resource directory!")
 
-        val relativeFile = cfg.file.drop(resDir.directory.length + 1)
+        val relativeFile = filePath.drop(resDir.length + 1)
         val packageName = cfg.packageName ?: getDefaultPackageName(relativeFile)
 
 
-        val fileName = relativeFile.substringBeforeLast('.').replace('\\', '/')
+        val fileName = relativeFile.substringBeforeLast('.')
         val result = when (cfg.language.lowercase()) {
             "java" -> generateJava(content, packageName, className, fileName)
             "kotlin" -> generateKotlin(content, packageName, className, fileName)
@@ -130,13 +131,11 @@ class BundleClassGenMojo : AbstractMojo() {
     }
 
     private fun getDefaultPackageName(relativeFile: String): String {
-        val fileWithSlashes = relativeFile
-            .replace('\\', '/')
-        val lastSlash = fileWithSlashes.indexOfLast { it == '/' }
+        val lastSlash = relativeFile.indexOfLast { it == '/' }
         return if (lastSlash == -1) {
             log.warn("Found $relativeFile in resource root, class will be generated in empty package.")
             ""
-        } else fileWithSlashes.take(lastSlash).replace('/', '.')
+        } else relativeFile.take(lastSlash).replace('/', '.')
     }
 
     private fun String.removeWhiteSpace(): String = filter { !it.isWhitespace() }
