@@ -130,7 +130,7 @@ private fun tryParseAnnotation(line: String): ParamAnnotation? {
 }
 
 private fun countParameters(value: String): Int {
-    return MessageFormat(value).formats.size
+    return MessageFormat(value).formatsByArgumentIndex.size
 }
 
 internal class ParamAnnotation(val number: Int, val name: String, val type: String) {

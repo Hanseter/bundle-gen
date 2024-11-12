@@ -6,7 +6,7 @@
 
     <groupId>io.github.hanseter</groupId>
     <artifactId>bundle-gen-mvn</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>io.github.hanseter</groupId>
             <artifactId>bundle-gen</artifactId>
-            <version>0.4.0</version>
+            <version>0.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
